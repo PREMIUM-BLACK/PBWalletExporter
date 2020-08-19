@@ -41,6 +41,7 @@
             this.txtPublicKey = new System.Windows.Forms.TextBox();
             this.lblPath = new System.Windows.Forms.Label();
             this.bnShowAdresses = new System.Windows.Forms.Button();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // label1
@@ -58,12 +59,13 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.Location = new System.Drawing.Point(23, 582);
+            this.label2.Location = new System.Drawing.Point(23, 600);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(624, 42);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Huge thanks to NBitcoin (https://github.com/MetacoSA/NBitcoin) and NEthereum (htt" +
-    "ps://github.com/Nethereum/Nethereum)";
+            this.label2.Text = "Huge thanks to NBitcoin (https://github.com/MetacoSA/NBitcoin) and \r\nNEthereum (h" +
+    "ttps://github.com/Nethereum/Nethereum)";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // txtWords
             // 
@@ -172,11 +174,25 @@
             this.bnShowAdresses.UseVisualStyleBackColor = true;
             this.bnShowAdresses.Click += new System.EventHandler(this.bnShowAdresses_Click);
             // 
+            // linkLabel1
+            // 
+            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(174, 657);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(295, 15);
+            this.linkLabel1.TabIndex = 4;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "powered by PREMIUM BLACK (https://premium.black)";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llLink_LinkClicked);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(659, 633);
+            this.ClientSize = new System.Drawing.Size(659, 681);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.bnShowAdresses);
             this.Controls.Add(this.lblPath);
             this.Controls.Add(this.bnGetPublicKey);
@@ -213,6 +229,7 @@
         private System.Windows.Forms.TextBox txtPublicKey;
         private System.Windows.Forms.Label lblPath;
         private System.Windows.Forms.Button bnShowAdresses;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
 
