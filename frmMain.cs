@@ -22,9 +22,15 @@ namespace PBWalletExporter
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            
+
+            if (MessageBox.Show("DISCLAIMER: Please use this tool on your own RISK.\r\nIt can help you, to get your Public Key (xPub) for your wallet to use with PREMIUM BLACK or other services. This tool will be provided \"as-is\" without any warranty about its functionality. But at any time prove the given public key and compare with the one you'll receive from your wallet.\r\nWhen you press on OK you agree with that.", "DISCLAIMER", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) != DialogResult.OK)
+            {
+                this.Close();
+                return;
+            }
+
             cmbCurrency.SelectedIndex = 0;
-
-
 #if NETCOREAPP3_1
             txtWords.PlaceholderText = "my mnemonic words to keep my wallet safe";
 #endif
@@ -159,7 +165,7 @@ namespace PBWalletExporter
 
         }
 
-        
+
 
         private void bnShowAdresses_Click(object sender, EventArgs e)
         {
@@ -175,13 +181,13 @@ namespace PBWalletExporter
                 return;
             }
 
-            if(txtPublicKey.Text.Trim() == "")
+            if (txtPublicKey.Text.Trim() == "")
             {
                 MessageBox.Show("Please generate your public key first.");
                 return;
             }
 
-            
+
 
             var s = "";
 
