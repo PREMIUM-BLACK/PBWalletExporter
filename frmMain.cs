@@ -48,11 +48,6 @@ namespace PBWalletExporter
             txtWords.PasswordChar = '#';
         }
 
-        private void bnShow_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void bnGetPublicKey_Click(object sender, EventArgs e)
         {
             if (txtWords.Text.Trim() == "")
@@ -369,6 +364,21 @@ namespace PBWalletExporter
                     throw;
                 }
             }
+        }
+
+        private void bnRandom_Click(object sender, EventArgs e)
+        {
+
+            if(txtWords.Text.Trim() != "" && MessageBox.Show("Replace words with random ones ?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            var mn = new Mnemonic(Wordlist.English, WordCount.Twelve);
+
+            txtWords.Text = mn.ToString();
+
+
         }
     }
 }

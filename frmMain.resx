@@ -57,10 +57,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label1.Text" xml:space="preserve">
-    <value>This tool helps you to export your Public Key from your crypto currencies to use them inside PREMIUM BLACK.
-
-It will never asks you for an internet connection. Everything will be generated locally.
-</value>
-  </data>
 </root>

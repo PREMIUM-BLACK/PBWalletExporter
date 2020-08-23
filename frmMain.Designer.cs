@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtWords = new System.Windows.Forms.TextBox();
@@ -42,6 +41,7 @@
             this.lblPath = new System.Windows.Forms.Label();
             this.bnShowAdresses = new System.Windows.Forms.Button();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.bnRandom = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -51,9 +51,11 @@
             this.label1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label1.Location = new System.Drawing.Point(23, 22);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(624, 100);
+            this.label1.Size = new System.Drawing.Size(645, 115);
             this.label1.TabIndex = 0;
-            this.label1.Text = resources.GetString("label1.Text");
+            this.label1.Text = "This tool helps you to export your Public Key from your crypto currencies to use " +
+    "them inside PREMIUM BLACK.\r\n\r\nIt will never asks you for an internet connection." +
+    " Everything will be generated locally.";
             // 
             // label2
             // 
@@ -61,7 +63,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.Location = new System.Drawing.Point(23, 600);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(624, 42);
+            this.label2.Size = new System.Drawing.Size(645, 42);
             this.label2.TabIndex = 1;
             this.label2.Text = "Huge thanks to NBitcoin (https://github.com/MetacoSA/NBitcoin) and \r\nNEthereum (h" +
     "ttps://github.com/Nethereum/Nethereum)";
@@ -71,17 +73,17 @@
             // 
             this.txtWords.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtWords.Location = new System.Drawing.Point(23, 164);
+            this.txtWords.Location = new System.Drawing.Point(23, 173);
             this.txtWords.Multiline = true;
             this.txtWords.Name = "txtWords";
             this.txtWords.PasswordChar = '#';
-            this.txtWords.Size = new System.Drawing.Size(624, 82);
+            this.txtWords.Size = new System.Drawing.Size(645, 82);
             this.txtWords.TabIndex = 2;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(23, 135);
+            this.label3.Location = new System.Drawing.Point(23, 144);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(226, 15);
             this.label3.TabIndex = 3;
@@ -90,13 +92,12 @@
             // bnShow
             // 
             this.bnShow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bnShow.Location = new System.Drawing.Point(546, 252);
+            this.bnShow.Location = new System.Drawing.Point(539, 261);
             this.bnShow.Name = "bnShow";
-            this.bnShow.Size = new System.Drawing.Size(101, 23);
+            this.bnShow.Size = new System.Drawing.Size(129, 23);
             this.bnShow.TabIndex = 4;
-            this.bnShow.Text = "Show";
+            this.bnShow.Text = "Show words";
             this.bnShow.UseVisualStyleBackColor = true;
-            this.bnShow.Click += new System.EventHandler(this.bnShow_Click);
             this.bnShow.MouseDown += new System.Windows.Forms.MouseEventHandler(this.bnShow_MouseDown);
             this.bnShow.MouseUp += new System.Windows.Forms.MouseEventHandler(this.bnShow_MouseUp);
             // 
@@ -152,7 +153,7 @@
             this.txtPublicKey.Location = new System.Drawing.Point(23, 442);
             this.txtPublicKey.Multiline = true;
             this.txtPublicKey.Name = "txtPublicKey";
-            this.txtPublicKey.Size = new System.Drawing.Size(624, 50);
+            this.txtPublicKey.Size = new System.Drawing.Size(645, 50);
             this.txtPublicKey.TabIndex = 2;
             // 
             // lblPath
@@ -187,16 +188,30 @@
             this.linkLabel1.Text = "powered by PREMIUM BLACK (https://premium.black)";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llLink_LinkClicked);
             // 
+            // bnRandom
+            // 
+            this.bnRandom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bnRandom.Location = new System.Drawing.Point(502, 140);
+            this.bnRandom.Name = "bnRandom";
+            this.bnRandom.Size = new System.Drawing.Size(166, 23);
+            this.bnRandom.TabIndex = 4;
+            this.bnRandom.Text = "Use random (for testing)";
+            this.bnRandom.UseVisualStyleBackColor = true;
+            this.bnRandom.Click += new System.EventHandler(this.bnRandom_Click);
+            this.bnRandom.MouseDown += new System.Windows.Forms.MouseEventHandler(this.bnShow_MouseDown);
+            this.bnRandom.MouseUp += new System.Windows.Forms.MouseEventHandler(this.bnShow_MouseUp);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(659, 681);
+            this.ClientSize = new System.Drawing.Size(680, 681);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.bnShowAdresses);
             this.Controls.Add(this.lblPath);
             this.Controls.Add(this.bnGetPublicKey);
             this.Controls.Add(this.cmbCurrency);
+            this.Controls.Add(this.bnRandom);
             this.Controls.Add(this.bnShow);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -230,6 +245,7 @@
         private System.Windows.Forms.Label lblPath;
         private System.Windows.Forms.Button bnShowAdresses;
         private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.Button bnRandom;
     }
 }
 
