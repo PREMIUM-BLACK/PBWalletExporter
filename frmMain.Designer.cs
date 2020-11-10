@@ -43,6 +43,10 @@
             this.bnShowAdresses = new System.Windows.Forms.Button();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.bnRandom = new System.Windows.Forms.Button();
+            this.nudWalletIndex = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            this.bnHelp = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.nudWalletIndex)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -99,6 +103,7 @@
             this.bnShow.TabIndex = 4;
             this.bnShow.Text = "Show words";
             this.bnShow.UseVisualStyleBackColor = true;
+            this.bnShow.Click += new System.EventHandler(this.bnShow_Click);
             this.bnShow.MouseDown += new System.Windows.Forms.MouseEventHandler(this.bnShow_MouseDown);
             this.bnShow.MouseUp += new System.Windows.Forms.MouseEventHandler(this.bnShow_MouseUp);
             // 
@@ -118,6 +123,7 @@
             this.cmbCurrency.Name = "cmbCurrency";
             this.cmbCurrency.Size = new System.Drawing.Size(144, 23);
             this.cmbCurrency.TabIndex = 5;
+            this.cmbCurrency.SelectedIndexChanged += new System.EventHandler(this.cmbCurrency_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -202,11 +208,45 @@
             this.bnRandom.MouseDown += new System.Windows.Forms.MouseEventHandler(this.bnShow_MouseDown);
             this.bnRandom.MouseUp += new System.Windows.Forms.MouseEventHandler(this.bnShow_MouseUp);
             // 
+            // nudWalletIndex
+            // 
+            this.nudWalletIndex.Location = new System.Drawing.Point(269, 321);
+            this.nudWalletIndex.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.nudWalletIndex.Name = "nudWalletIndex";
+            this.nudWalletIndex.Size = new System.Drawing.Size(120, 23);
+            this.nudWalletIndex.TabIndex = 9;
+            this.nudWalletIndex.ValueChanged += new System.EventHandler(this.nudWalletIndex_ValueChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(269, 292);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(72, 15);
+            this.label6.TabIndex = 3;
+            this.label6.Text = "Wallet Index";
+            // 
+            // bnHelp
+            // 
+            this.bnHelp.Location = new System.Drawing.Point(411, 319);
+            this.bnHelp.Name = "bnHelp";
+            this.bnHelp.Size = new System.Drawing.Size(105, 23);
+            this.bnHelp.TabIndex = 10;
+            this.bnHelp.Text = "I don\'t know?";
+            this.bnHelp.UseVisualStyleBackColor = true;
+            this.bnHelp.Click += new System.EventHandler(this.bnHelp_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(680, 681);
+            this.Controls.Add(this.bnHelp);
+            this.Controls.Add(this.nudWalletIndex);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.bnShowAdresses);
             this.Controls.Add(this.lblPath);
@@ -214,6 +254,7 @@
             this.Controls.Add(this.cmbCurrency);
             this.Controls.Add(this.bnRandom);
             this.Controls.Add(this.bnShow);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -227,6 +268,7 @@
             this.Name = "frmMain";
             this.Text = "PREMIUM BLACK Wallet Exporter Tool";
             this.Load += new System.EventHandler(this.frmMain_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.nudWalletIndex)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -248,6 +290,9 @@
         private System.Windows.Forms.Button bnShowAdresses;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Button bnRandom;
+        private System.Windows.Forms.NumericUpDown nudWalletIndex;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button bnHelp;
     }
 }
 

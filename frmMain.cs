@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static PBWalletExporter.lib.crypto;
 
 namespace PBWalletExporter
 {
@@ -25,7 +26,7 @@ namespace PBWalletExporter
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            
+
 
             if (MessageBox.Show("DISCLAIMER: Please use this tool on your own RISK.\r\nIt can help you, to get your Public Key (xPub) for your wallet to use with PREMIUM BLACK or other services. This tool will be provided \"as-is\" without any warranty about its functionality. But at any time prove the given public key and compare with the one you'll receive from your wallet.\r\nWhen you press on OK you agree with that.", "DISCLAIMER", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) != DialogResult.OK)
             {
@@ -36,6 +37,8 @@ namespace PBWalletExporter
             cmbCurrency.SelectedIndex = 0;
 #if NETCOREAPP3_1
             txtWords.PlaceholderText = "my mnemonic words to keep my wallet safe";
+
+            txtPublicKey.PlaceholderText = "xPub123456789....";
 #endif
         }
         private void bnShow_MouseDown(object sender, MouseEventArgs e)
@@ -52,7 +55,9 @@ namespace PBWalletExporter
         {
             if (txtWords.Text.Trim() == "")
             {
-                MessageBox.Show("Please fill in your words.");
+                if (sender != null)
+                    MessageBox.Show("Please fill in your words.");
+
                 return;
             }
 
@@ -62,97 +67,55 @@ namespace PBWalletExporter
                 return;
             }
 
+            if (txtWords.Text.Contains("\r\n"))
+            {
+                txtWords.Text = txtWords.Text.Replace("\r\n", " ");
+            }
+
             var _mn = new Mnemonic(txtWords.Text);
 
             BitcoinExtPubKey xpub;
 
             var key = _mn.DeriveExtKey();
 
+
+            txtPublicKey.Text = GetXPub(key, cmbCurrency.SelectedItem.ToString(), (int)nudWalletIndex.Value);
+
             switch (cmbCurrency.SelectedItem)
             {
                 case "Bitcoin":
 
-
-
-                    key = DeriveKey(key, 44, 0, 0, 0);
-
-                    xpub = key.Neuter().GetWif(Network.Main);
-
-                    txtPublicKey.Text = xpub.ToString();
-
-                    lblPath.Text = "Path: m/44'/0'/0'/0";
+                    lblPath.Text = $"Path: m/44'/0'/{nudWalletIndex.Value.ToString("0")}'/0";
 
                     break;
 
                 case "Ethereum":
 
-                    key = DeriveKey(key, 44, 60, 0, 0);
-
-                    xpub = key.Neuter().GetWif(Network.Main);
-
-                    txtPublicKey.Text = xpub.ToString();
-
-                    lblPath.Text = "Path: m/44'/60'/0'/0";
+                    lblPath.Text = $"Path: m/44'/60'/{nudWalletIndex.Value.ToString("0")}'/0";
 
                     break;
 
                 case "Litecoin":
 
-
-                    key = DeriveKey(key, 44, 2, 0, 0);
-
-                    xpub = key.Neuter().GetWif(Network.Main);
-
-                    var ltc = Litecoin.Instance.Mainnet.CreateBitcoinExtPubKey(xpub);
-
-                    txtPublicKey.Text = xpub.ToString();
-
-                    lblPath.Text = "Path: m/44'/2'/0'/0";
+                    lblPath.Text = $"Path: m/44'/2'/{nudWalletIndex.Value.ToString("0")}'/0";
 
                     break;
 
                 case "Litecoin (Ltub)":
 
-
-                    key = DeriveKey(key, 44, 2, 0, 0);
-
-                    xpub = key.Neuter().GetWif(Network.Main);
-
-                    //Ltub : 019DA462
-                    var x = ParseNewxPubFormats(xpub.ToString(), "019DA462");
-
-                    txtPublicKey.Text = x;
-
-                    lblPath.Text = "Path: m/44'/2'/0'/0";
+                    lblPath.Text = $"Path: m/44'/2'/{nudWalletIndex.Value.ToString("0")}'/0";
 
                     break;
 
                 case "DASH":
 
-
-                    key = DeriveKey(key, 44, 5, 0, 0);
-
-                    xpub = key.Neuter().GetWif(Network.Main);
-
-                    txtPublicKey.Text = xpub.ToString();
-
-                    lblPath.Text = "Path: m/44'/5'/0'/0";
+                    lblPath.Text = $"Path: m/44'/5'/{nudWalletIndex.Value.ToString("0")}'/0";
 
                     break;
 
                 case "DASH (drkp)":
 
-
-                    key = DeriveKey(key, 44, 5, 0, 0);
-
-                    xpub = key.Neuter().GetWif(Network.Main);
-
-                    //drkp : 02FE52CC
-                    var x2 = ParseNewxPubFormats(xpub.ToString(), "02FE52CC");
-
-                    txtPublicKey.Text = x2.ToString();
-
-                    lblPath.Text = "Path: m/44'/5'/0'/0";
+                    lblPath.Text = $"Path: m/44'/5'/{nudWalletIndex.Value.ToString("0")}'/0";
 
                     break;
 
@@ -256,77 +219,8 @@ namespace PBWalletExporter
         }
 
 
-        public static ExtKey DeriveKey(ExtKey key, int purpose = 44, int coin = 0, int account = 0, uint externalInternal = 0)
-        {
-            if (key.Depth > 0)
-                throw new Exception("key is not the master key");
-
-            return key.Derive(purpose, true).Derive(coin, true).Derive(account, true).Derive(externalInternal);
-        }
-
-        public static BitcoinAddress GetAddressFromPubKey(ExtPubKey key, uint index, Network net)
-        {
-            return key.Derive(index).PubKey.GetAddress(ScriptPubKeyType.Legacy, net);
-        }
-
-        /// <summary>
-        /// xpub = 0488b21e
-        /// 
-        /// </summary>
-        /// <param name="xpubkey"></param>
-        /// <param name="newFormat"></param>
-        /// <returns></returns>
-        public string ParseNewxPubFormats(string xpubkey, string newFormat = "xpub")
-        {
-            try
-            {
-                var encoder = new NBitcoin.DataEncoders.Base58CheckEncoder();
-                var decoded = encoder.DecodeData(xpubkey);
-
-                var decoded_2 = decoded.Skip(4).ToArray();
-
-                var decoded_3 = StringToByteArray(newFormat).Concat(decoded_2).ToArray();
-
-                var encoded = encoder.EncodeData(decoded_3);
-
-                return encoded;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        public static byte[] StringToByteArray(string hex)
-        {
-            return Enumerable.Range(0, hex.Length)
-                             .Where(x => x % 2 == 0)
-                             .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
-                             .ToArray();
-        }
-
-        private static String GetETHAddress(ExtPubKey pubkey, uint index, bool derive = true)
-        {
-            var pkd = (derive ? pubkey.Derive(0) : pubkey).Derive(index);
-
-            PubKey ETH_publickKey = pkd.PubKey;
-
-            byte[] byte_ETH_publicKey = ETH_publickKey.Decompress().ToBytes();
-
-            var PubKeyNoPrefix = new byte[byte_ETH_publicKey.Length - 1];
-
-            Array.Copy(byte_ETH_publicKey, 1, PubKeyNoPrefix, 0, PubKeyNoPrefix.Length);
-
-            var initaddr = new Nethereum.Util.Sha3Keccack().CalculateHash(PubKeyNoPrefix);
-            var addr = new byte[initaddr.Length - 12];
-
-            Array.Copy(initaddr, 12, addr, 0, initaddr.Length - 12);
-
-            var hex_addr = BitConverter.ToString(addr).Replace("-", "");
-            string public_address = new Nethereum.Util.AddressUtil().ConvertToChecksumAddress(hex_addr);
-
-            return public_address;
-        }
+      
+       
 
         private void llLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -369,7 +263,7 @@ namespace PBWalletExporter
         private void bnRandom_Click(object sender, EventArgs e)
         {
 
-            if(txtWords.Text.Trim() != "" && MessageBox.Show("Replace words with random ones ?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+            if (txtWords.Text.Trim() != "" && MessageBox.Show("Replace words with random ones ?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
             {
                 return;
             }
@@ -379,6 +273,39 @@ namespace PBWalletExporter
             txtWords.Text = mn.ToString();
 
 
+        }
+
+        private void bnShow_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void nudWalletIndex_ValueChanged(object sender, EventArgs e)
+        {
+            bnGetPublicKey_Click(null, null);
+        }
+
+        private void cmbCurrency_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            bnGetPublicKey_Click(null, null);
+        }
+
+        private void bnHelp_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("In the case of not knowing the path of your HD wallet, but having one address, you can use this search feature. It will try multiple pathes.", "Search", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            frmSearch frm = new frmSearch();
+            frm.Currency = cmbCurrency.SelectedItem.ToString();
+            frm.SecretPhrase = txtWords.Text;
+            frm.ShowDialog();
+
+            if (frm.PathIndex == null)
+                return;
+
+
+            nudWalletIndex.Value = frm.PathIndex.Value;
+
+            MessageBox.Show("Path imported!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
