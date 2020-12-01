@@ -80,7 +80,8 @@ namespace PBWalletExporter
             }
             catch(FormatException ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                int c = txtWords.Text.Split(' ').Count();
+                MessageBox.Show("Error: " + ex.Message + "\r\nWordcount: " + c, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             catch(Exception ex)
