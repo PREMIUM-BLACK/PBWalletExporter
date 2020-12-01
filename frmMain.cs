@@ -72,7 +72,22 @@ namespace PBWalletExporter
                 txtWords.Text = txtWords.Text.Replace("\r\n", " ");
             }
 
-            var _mn = new Mnemonic(txtWords.Text);
+            Mnemonic _mn;
+            try
+            {
+                _mn = new Mnemonic(txtWords.Text);
+
+            }
+            catch(FormatException ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Invalid Words.", "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             BitcoinExtPubKey xpub;
 
@@ -219,8 +234,8 @@ namespace PBWalletExporter
         }
 
 
-      
-       
+
+
 
         private void llLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
