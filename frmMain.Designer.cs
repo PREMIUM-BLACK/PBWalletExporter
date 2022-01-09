@@ -46,6 +46,7 @@
             this.nudWalletIndex = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.bnHelp = new System.Windows.Forms.Button();
+            this.bnExportAddresses = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nudWalletIndex)).BeginInit();
             this.SuspendLayout();
             // 
@@ -112,13 +113,6 @@
             this.cmbCurrency.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCurrency.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cmbCurrency.FormattingEnabled = true;
-            this.cmbCurrency.Items.AddRange(new object[] {
-            "Bitcoin",
-            "Ethereum",
-            "Litecoin",
-            "Litecoin (Ltub)",
-            "DASH",
-            "DASH (drkp)"});
             this.cmbCurrency.Location = new System.Drawing.Point(23, 321);
             this.cmbCurrency.Name = "cmbCurrency";
             this.cmbCurrency.Size = new System.Drawing.Size(144, 23);
@@ -240,6 +234,16 @@
             this.bnHelp.UseVisualStyleBackColor = true;
             this.bnHelp.Click += new System.EventHandler(this.bnHelp_Click);
             // 
+            // bnExportAddresses
+            // 
+            this.bnExportAddresses.Location = new System.Drawing.Point(171, 522);
+            this.bnExportAddresses.Name = "bnExportAddresses";
+            this.bnExportAddresses.Size = new System.Drawing.Size(142, 23);
+            this.bnExportAddresses.TabIndex = 8;
+            this.bnExportAddresses.Text = "Export addresses";
+            this.bnExportAddresses.UseVisualStyleBackColor = true;
+            this.bnExportAddresses.Click += new System.EventHandler(this.bnExportAddresses_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -248,6 +252,7 @@
             this.Controls.Add(this.bnHelp);
             this.Controls.Add(this.nudWalletIndex);
             this.Controls.Add(this.linkLabel1);
+            this.Controls.Add(this.bnExportAddresses);
             this.Controls.Add(this.bnShowAdresses);
             this.Controls.Add(this.lblPath);
             this.Controls.Add(this.bnGetPublicKey);
@@ -293,6 +298,7 @@
         private System.Windows.Forms.NumericUpDown nudWalletIndex;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button bnHelp;
+        private System.Windows.Forms.Button bnExportAddresses;
     }
 }
 

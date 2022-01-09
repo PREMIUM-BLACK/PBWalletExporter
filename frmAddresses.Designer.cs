@@ -53,6 +53,7 @@
             this.txtAddresses.Multiline = true;
             this.txtAddresses.Name = "txtAddresses";
             this.txtAddresses.ReadOnly = true;
+            this.txtAddresses.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtAddresses.Size = new System.Drawing.Size(466, 320);
             this.txtAddresses.TabIndex = 1;
             // 

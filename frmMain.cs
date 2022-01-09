@@ -1,6 +1,7 @@
 ﻿using NBitcoin;
 using NBitcoin.Altcoins;
 using Nethereum.HdWallet;
+using PBWalletExporter.lib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,7 +35,13 @@ namespace PBWalletExporter
                 return;
             }
 
+            foreach(var co in crypto.GetOptions())
+            {
+                cmbCurrency.Items.Add(co);
+            }
+
             cmbCurrency.SelectedIndex = 0;
+
 #if NETCOREAPP3_1
             txtWords.PlaceholderText = "my mnemonic words to keep my wallet safe";
 
@@ -105,9 +112,15 @@ namespace PBWalletExporter
 
                     break;
 
-                case "Ethereum":
+                case "Ethereum (Metamask)":
 
-                    lblPath.Text = $"Path: m/44'/60'/{nudWalletIndex.Value.ToString("0")}'/0";
+                    lblPath.Text = $"Path: m/44'/60'/0'/0/{nudWalletIndex.Value.ToString("0")}";
+
+                    break;
+
+                case "Ethereum (Ledger)":
+
+                    lblPath.Text = $"Path: m/44'/60'/{nudWalletIndex.Value.ToString("0")}'";
 
                     break;
 
@@ -186,14 +199,36 @@ namespace PBWalletExporter
 
 
                     break;
-                case "Ethereum":
+                case "Ethereum (Metamask)":
+
+                    
 
                     for (uint i = 0; i < 25; i++)
                     {
-                        s += GetETHAddress(key, i, false) + "\r\n";
+                        s += GetETHMetamaskAddress(key, i, false) + "\r\n";
 
 
                     }
+
+                    break;
+
+                case "Ethereum (Ledger)":
+
+                    var _mn = new Mnemonic(txtWords.Text);
+
+                    var pkk = _mn.DeriveExtKey();
+
+                    for (int i = 0; i < 25; i++)
+                    {
+                        //var pks = pk.Derive(i, true).Derive(0).Derive(0).Neuter();
+
+                        var pk = pkk.Derive(new KeyPath($"44'/60'/{i}'/0/0"));
+
+                        s += GetETHLedgerAddress(pk.Neuter(), i) + "\r\n";
+
+
+                    }
+
 
                     break;
 
@@ -303,6 +338,17 @@ namespace PBWalletExporter
 
         private void cmbCurrency_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if(cmbCurrency.SelectedItem.ToString() == "Ethereum (Ledger)")
+            {
+                nudWalletIndex.Enabled = false;
+                nudWalletIndex.Value = 0;
+            }
+            else
+            {
+                nudWalletIndex.Enabled = true;
+            }
+            
+
             bnGetPublicKey_Click(null, null);
         }
 
@@ -322,6 +368,21 @@ namespace PBWalletExporter
             nudWalletIndex.Value = frm.PathIndex.Value;
 
             MessageBox.Show("Path imported!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void bnExportAddresses_Click(object sender, EventArgs e)
+        {
+
+            frmExportAddresses frm = new frmExportAddresses();
+
+            frm.Mnemonic = txtWords.Text;
+
+            frm.Show();
+
+            frm.cmbCurrency.SelectedIndex = cmbCurrency.SelectedIndex;
+
+
+
         }
     }
 }
